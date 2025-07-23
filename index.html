@@ -270,6 +270,7 @@
             <h3 id="accountFormTitle">Create Account</h3>
             <div class="input-group" id="nameGroup"><label>Name:</label><input type="text" id="acctName" /></div>
             <div class="input-group"><label>Email:</label><input type="email" id="acctEmail" /></div>
+            <div class="input-group" id="phoneGroup"><label>Phone:</label><input type="phone" id="acctPhone" /></div>
             <div class="input-group" id="zipcodeGroup"><label>Zipcode:</label><input type="text" id="acctZip" /></div>
             <div class="input-group"><label>Password:</label><input type="password" id="accPswd" /></div>
             <button id="submitNewAccountBtn" class="btn-info hidden">Create Account</button>
@@ -421,6 +422,7 @@
             document.querySelectorAll('#toppingsGroup input[type="checkbox"]').forEach(cb => cb.checked = false);
             document.getElementById('acctEmail').value = '';
             document.getElementById('acctName').value = '';
+            document.getElementById('acctPhone').value = '';
             document.getElementById('acctZip').value = '';
             document.getElementById('accPswd').value = '';
             document.querySelectorAll('.pizza-item').forEach(item => item.classList.remove('selected'));
@@ -454,6 +456,7 @@
             document.getElementById('submitAccountBtn').classList.remove('hidden');
             document.getElementById('submitNewAccountBtn').classList.add('hidden');
             document.getElementById('nameGroup').classList.add('hidden');
+            document.getElementById('phoneGroup').classList.add('hidden');
             document.getElementById('zipcodeGroup').classList.add('hidden');
             document.getElementById('accountFormTitle').textContent = 'Sign In';
         });
@@ -464,6 +467,8 @@
             document.getElementById('submitNewAccountBtn').classList.remove('hidden');
             document.getElementById('submitAccountBtn').classList.add('hidden');
             document.getElementById('nameGroup').classList.remove('hidden');
+            document.getElementById('phoneGroup').classList.remove('hidden');
+            document.getElementById('phoneGroup').classList.remove('hidden');
             document.getElementById('zipcodeGroup').classList.remove('hidden');
             document.getElementById('accountFormTitle').textContent = 'Create Account';
         });
@@ -472,6 +477,7 @@
             analytics.track("Checkout Step Completed")
             analytics.track("Account Created")
             selected.email  = document.getElementById('acctEmail').value;
+            selected.email  = document.getElementById('acctPhone').value;
             selected.name  = document.getElementById('acctName')?.value;
             selected.address = document.getElementById('acctZip').value;
             e.preventDefault();
@@ -480,6 +486,7 @@
                 {
                     email: selected.email,
                     name: selected.name,
+                    phone: selected.phone,
                     address: selected.zipcode
                 }
             )
@@ -494,6 +501,7 @@
                 "749b8795-da19-4f4d-af58-79a5fcdc9d03",
                 {
                     email: "john@doe.com",
+                    phone: "5541991440444",
                     name: "John Doe",
                     address: "0000000"
                 }
