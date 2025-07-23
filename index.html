@@ -25,8 +25,24 @@
             padding: 20px 0;
         }
 
+        .container-wrapper {
+            display: flex;
+            gap: 20px; /* space between containers */
+        }
+
         .container {
             background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 320px;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .container-secondary {
+            background: rgb(241, 241, 241);
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -198,6 +214,7 @@
 </head>
 
 <body>
+    <div class="container-wrapper">
     <div id="pizzaContainer" class="container">
         <div class="logo-container">
             <img src="https://images.g2crowd.com/uploads/product/image/large_detail/large_detail_205c43a22cc9f5d110bca0feac5ef444/segment.png"
@@ -234,7 +251,6 @@
             <label><input type="checkbox" value="extra_cheese" data-price="2.00" /> Extra Cheese (+$2.00)</label>
             <label><input type="checkbox" value="mushrooms" data-price="0.8" /> Mushrooms (+$0.80)</label>
             <label><input type="checkbox" value="olives" data-price="1.00" /> Olives (+$1.00)</label>
-            <button id="saveToppingsBtn" class="btn-primary">Save Toppings</button>
         </div>
         <div id="quantityBlock" class="hidden">
             <div id="quantityControls">
@@ -245,17 +261,6 @@
             </div>
         </div>
         <button id="addToCartBtn" class="btn-primary hidden">Add to Cart</button>
-    </div>
-
-    <div id="summaryContainer" class="container">
-        <h2>Order Summary</h2>
-        <hr class="rounded" />
-        <div id="summaryList"></div>
-        <p>Base Price: $<span id="summaryBase">0.00</span></p>
-        <p>Toppings: $<span id="summaryToppings">0.00</span></p>
-        <p>Quantity: <span id="summaryQty">0</span></p>
-        <p>Total: $<span id="summaryTotal">0.00</span></p>
-        <button id="proceedToDeliveryBtn" class="btn-secondary">Continue to Checkout</button>
     </div>
 
     <div id="loginContainer" class="hidden container">
@@ -277,6 +282,20 @@
             <button id="submitAccountBtn" class="btn-info hidden">Continue</button>
         </form>
         <button id="finishOrderBtn" class="btn-warning hidden">Create Order</button>
+    </div>
+
+    <div id="summaryContainer" class="container-secondary">
+        <h2>Order Summary</h2>
+        <hr class="rounded" />
+        <div id="summaryList"></div>
+        <p>Base Price: $<span id="summaryBase">0.00</span></p>
+        <p>Toppings: $<span id="summaryToppings">0.00</span></p>
+        <p>Quantity: <span id="summaryQty">0</span></p>
+        <p>Shipping: <span id="shipping">FREE</span></p>
+        <p>Total: $<span id="summaryTotal">0.00</span></p>
+        <button id="proceedToDeliveryBtn" class="btn-secondary">Continue to Checkout</button>
+    </div>
+
     </div>
 
     <button id="resetBtn" class="btn-reset">Reset Flow & User Properties</button>
@@ -319,14 +338,6 @@
                 price: selected.price
             });
             document.getElementById('toppingsGroup').classList.remove('hidden');
-        });
-
-        document.getElementById('saveToppingsBtn').addEventListener('click', () => {
-            const toppings = [];
-            document.querySelectorAll('#toppingsGroup input[type="checkbox"]:checked').forEach(cb => {
-                toppings.push({ name: cb.value, price: cb.dataset.price });
-            });
-            selected.toppings = toppings;
             document.getElementById('addToCartBtn').classList.remove('hidden');
             document.getElementById('quantityBlock').classList.remove('hidden');
         });
@@ -344,6 +355,13 @@
         });
 
         document.getElementById('addToCartBtn').addEventListener('click', () => {
+            const toppings = [];
+            document.querySelectorAll('#toppingsGroup input[type="checkbox"]:checked').forEach(cb => {
+                toppings.push({ name: cb.value, price: cb.dataset.price });
+            });
+            selected.toppings = toppings;
+            document.getElementById('addToCartBtn').classList.remove('hidden');
+            document.getElementById('quantityBlock').classList.remove('hidden');
             selected.quantity = quantity;
             const toppingsTotal = (selected.toppings || []).reduce((sum, t) => sum + parseFloat(t.price), 0);
             const total_price = (parseFloat(selected.price) + toppingsTotal) * quantity;
@@ -431,6 +449,8 @@
                 cart = [];
                 updateSummary();
             }
+
+            analytics.page("Home");
         }
 
         document.getElementById('resetBtn').addEventListener('click', () => {
@@ -444,6 +464,7 @@
 
         document.getElementById('proceedToDeliveryBtn').addEventListener('click', () => {
             analytics.track("Checkout Started")
+            analytics.page("Checkout")
             document.getElementById("pizzaContainer").classList.add("hidden");
             document.getElementById("proceedToDeliveryBtn").classList.add("hidden");
             document.getElementById('loginContainer').classList.remove('hidden');
