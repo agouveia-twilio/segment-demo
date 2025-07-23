@@ -469,6 +469,25 @@
         document.getElementById('submitNewAccountBtn').addEventListener('click', (e) => {
             analytics.track("Checkout Step Completed")
             analytics.track("Account Created")
+            selected.email  = document.getElementById('acctEmail').value;
+            selected.name  = document.getElementById('acctName')?.value;
+            selected.address = document.getElementById('acctZip').value;
+            e.preventDefault();
+            analytics.identify(
+                generateUUID(),
+                {
+                    email: selected.email,
+                    name: selected.name,
+                    address: selected.zipcode
+                }
+            )
+            document.getElementById('finishOrderBtn').classList.remove('hidden');
+        });
+
+        document.getElementById('submitAccountBtn').addEventListener('click', (e) => {
+            analytics.track("Checkout Step Completed")
+            analytics.track("Logged In")
+            e.preventDefault();
             analytics.identify(
                 "749b8795-da19-4f4d-af58-79a5fcdc9d03",
                 {
@@ -477,26 +496,6 @@
                     address: "0000000"
                 }
             )
-            e.preventDefault();
-            selected.zipcode = document.getElementById('acctZip').value;
-            document.getElementById('finishOrderBtn').classList.remove('hidden');
-        });
-
-        document.getElementById('submitAccountBtn').addEventListener('click', (e) => {
-            analytics.track("Checkout Step Completed")
-            analytics.track("Logged In")
-            const email = document.getElementById('acctEmail').value;
-            const name = document.getElementById('acctName')?.value;
-            const address = document.getElementById('acctZip').value;
-            analytics.identify(
-                generateUUID(),
-                {
-                    email,
-                    name,
-                    address
-                }
-            )
-            e.preventDefault();
             document.getElementById('finishOrderBtn').classList.remove('hidden');
         });
 
