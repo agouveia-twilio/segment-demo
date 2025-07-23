@@ -335,6 +335,7 @@ function resetFlow(hard = false) {
     selected = {};
     quantity = 1;
     quantityDisplay.textContent = "1";
+    document.getElementById("pizzaContainer").classList.remove("hidden");
     document.getElementById('customizeBtn').classList.add('hidden');
     document.getElementById('toppingsGroup').classList.add('hidden');
     document.getElementById('addToCartBtn').classList.add('hidden');
@@ -364,6 +365,7 @@ document.getElementById('resetBtn').addEventListener('click', () => {
 });
 
 document.getElementById('proceedToDeliveryBtn').addEventListener('click', () => {
+    document.getElementById("pizzaContainer").classList.add("hidden");
     document.getElementById('loginContainer').classList.remove('hidden');
     document.getElementById('accountChoice').classList.remove('hidden');
 });
