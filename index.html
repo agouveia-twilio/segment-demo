@@ -502,12 +502,6 @@
         document.getElementById('finishOrderBtn').addEventListener('click', () => {
             const totalQty = cart.reduce((sum, i) => sum + parseInt(i.quantity), 0);
             const totalPrice = cart.reduce((sum, i) => sum + parseFloat(i.total_price), 0);
-            const products = {
-                product_id: selected.id,
-                name: selected.name,
-                toppings: selected.toppings,
-                price: selected.price
-            }
             const properties = {
                 checkout_id: generateUUID(),
                 order_id: generateUUID(),
@@ -515,7 +509,7 @@
                 total: totalPrice,
                 shipping: 0,
                 currency: "USD",
-                products: products
+                products: cart
             }
             analytics.track("Order Completed", properties)
             alert(`Order Created! ${totalQty} pizzas - $${totalPrice.toFixed(2)}`);
