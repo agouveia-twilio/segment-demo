@@ -299,9 +299,9 @@
                     toppings: []
                 };
                 analytics.track("Product Clicked", {
-                    product_id: id,
-                    name: name,
-                    price: price
+                    product_id: selected.id,
+                    name: selected.name,
+                    price: selected.price
                 });
                 document.getElementById('customizeBtn').classList.remove('hidden');
                 document.getElementById('toppingsGroup').classList.add('hidden');
@@ -312,9 +312,9 @@
 
         document.getElementById('customizeBtn').addEventListener('click', () => {
             analytics.track("Product Viewed",{
-                product_id: id,
-                name: name,
-                price: price
+                product_id: selected.id,
+                name: selected.name,
+                price: selected.price
             });
             document.getElementById('toppingsGroup').classList.remove('hidden');
         });
@@ -349,10 +349,10 @@
             cart.push({ ...selected });
             analytics.track("Product Added", {
                 cart_id: generateUUID(),
-                product_id: id,
-                name: name,
+                product_id: selected.id,
+                name: selected.name,
                 price: selected.total_price,
-                toppings: toppings
+                toppings: selected.toppings
             });
             updateSummary();
             resetFlow();
