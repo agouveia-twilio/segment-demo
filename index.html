@@ -5,8 +5,16 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Alex's Segment Pizza Flow</title>
+    <title>Segment Pizza Flow</title>
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <script>
+    !function(){var i="analytics",analytics=window[i]=window[i]||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","screen","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware","register"];analytics.factory=function(e){return function(){if(window[i].initialized)return window[i][e].apply(window[i],arguments);var n=Array.prototype.slice.call(arguments);if(["track","screen","alias","group","page","identify"].indexOf(e)>-1){var c=document.querySelector("link[rel='canonical']");n.push({__t:"bpc",c:c&&c.getAttribute("href")||void 0,p:location.pathname,u:location.href,s:location.search,t:document.title,r:document.referrer})}n.unshift(e);analytics.push(n);return analytics}};for(var n=0;n<analytics.methods.length;n++){var key=analytics.methods[n];analytics[key]=analytics.factory(key)}analytics.load=function(key,n){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.setAttribute("data-global-segment-analytics-key",i);t.src="https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(t,r);analytics._loadOptions=n};analytics._writeKey="hB3eh4jC2L0Np9ScPVIqDIG9iIrDVu27";;analytics.SNIPPET_VERSION="5.2.0";
+    analytics.load("hB3eh4jC2L0Np9ScPVIqDIG9iIrDVu27");
+    analytics.page();
+    }}();
+    </script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -72,10 +80,31 @@
             font-size: 16px;
         }
 
-        .btn-primary { background-color: #4CAF50; }
-        .btn-secondary { background-color: #da1d40; }
-        .btn-info { background-color: #2196F3; }
-        .btn-warning { background-color: #ff9800; }
+        .btn-primary {
+            background-color: #4CAF50;
+        }
+
+        .btn-secondary {
+            background-color: #da1d40;
+        }
+
+        .btn-info {
+            background-color: #2196F3;
+        }
+
+        .btn-warning {
+            background-color: #ff9800;
+        }
+
+        .btn-force5min {
+            background-color: #cb08b1;
+            position: fixed;
+            bottom: 20px;
+            right: 180px;
+            width: auto;
+            padding: 8px 12px;
+        }
+
         .btn-reset {
             background-color: #777;
             position: fixed;
@@ -85,13 +114,32 @@
             padding: 8px 12px;
         }
 
-        .hidden { display: none; }
+        .hidden {
+            display: none;
+        }
 
-        .toppings { text-align: left; margin: 10px 0; }
-        .toppings label { display: block; margin-bottom: 5px; }
+        .toppings {
+            text-align: left;
+            margin: 10px 0;
+        }
 
-        .input-group { margin-bottom: 10px; margin-right: 15px; text-align: left; }
-        .input-group label { display: block; margin-bottom: 4px; color: #555; }
+        .toppings label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input-group {
+            margin-bottom: 10px;
+            margin-right: 15px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 4px;
+            color: #555;
+        }
+
         .input-group input {
             width: 100%;
             padding: 8px;
@@ -129,21 +177,23 @@
         }
 
         .summary-item button {
-    background: #ff5252;
-    padding: 2px 6px;     /* smaller padding */
-    font-size: 14px;      /* smaller font size */
-    float: right;
-    margin-top: 0;
-    line-height: 1;
-    border-radius: 3px;
-    border: none;
-    cursor: pointer;
-    color: white;
-    height: 24px;
-    width: 24px;
-    text-align: center;
-    box-sizing: border-box;
-}
+            background: #ff5252;
+            padding: 2px 6px;
+            /* smaller padding */
+            font-size: 14px;
+            /* smaller font size */
+            float: right;
+            margin-top: 0;
+            line-height: 1;
+            border-radius: 3px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            height: 24px;
+            width: 24px;
+            text-align: center;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 
@@ -173,7 +223,7 @@
                 <p class="price">$8.00</p>
             </div>
             <div class="pizza-item" data-id="4" data-name="BBQ Chicken Pizza" data-price="9.00" data-base-price="9.00">
-                <img src="bbq_chicken.jpg" alt="BBQ Chicken" />
+                <img src="bbq_chicken.jpg" alt="BBQ Chicken" width="200" height="160" />
                 <p>BBQ Chicken</p>
                 <p class="price">$9.00</p>
             </div>
@@ -213,7 +263,8 @@
         <hr class="rounded" />
         <div id="accountChoice">
             <button id="haveAccountBtn" class="btn-primary" style="width:48%; display:inline-block;">Sign in</button>
-            <button id="createAccountBtn" class="btn-info" style="width:48%; display:inline-block;">Create Account</button>
+            <button id="createAccountBtn" class="btn-info" style="width:48%; display:inline-block;">Create
+                Account</button>
         </div>
         <form id="accountForm" class="hidden">
             <h3 id="accountFormTitle">Create Account</h3>
@@ -227,186 +278,192 @@
         <button id="finishOrderBtn" class="btn-warning hidden">Create Order</button>
     </div>
 
-    <button id="resetBtn" class="btn-reset">Reset Flow</button>
+    <button id="resetBtn" class="btn-reset">Reset Flow & User</button>
+    <button id="force5min" class="btn-force5min">Force 5-min</button>
 
     <script>
-let selected = {};
-let quantity = 1;
-let cart = [];
+        let selected = {};
+        let quantity = 1;
+        let cart = [];
 
-const quantityDisplay = document.getElementById('quantityDisplay');
+        const quantityDisplay = document.getElementById('quantityDisplay');
 
-document.querySelectorAll('.pizza-item').forEach(item => {
-    item.addEventListener('click', () => {
-        document.querySelectorAll('.pizza-item').forEach(p => p.classList.remove('selected'));
-        item.classList.add('selected');
-        selected = {
-            id: item.dataset.id,
-            name: item.dataset.name,
-            price: item.dataset.price,
-            base_price: item.dataset.basePrice,
-            toppings: []
-        };
-        document.getElementById('customizeBtn').classList.remove('hidden');
-        document.getElementById('toppingsGroup').classList.add('hidden');
-        document.getElementById('addToCartBtn').classList.add('hidden');
-        document.getElementById('quantityBlock').classList.add('hidden');
-    });
-});
+        document.querySelectorAll('.pizza-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.pizza-item').forEach(p => p.classList.remove('selected'));
+                item.classList.add('selected');
+                selected = {
+                    id: item.dataset.id,
+                    name: item.dataset.name,
+                    price: item.dataset.price,
+                    base_price: item.dataset.basePrice,
+                    toppings: []
+                };
+                document.getElementById('customizeBtn').classList.remove('hidden');
+                document.getElementById('toppingsGroup').classList.add('hidden');
+                document.getElementById('addToCartBtn').classList.add('hidden');
+                document.getElementById('quantityBlock').classList.add('hidden');
+            });
+        });
 
-document.getElementById('customizeBtn').addEventListener('click', () => {
-    document.getElementById('toppingsGroup').classList.remove('hidden');
-});
+        document.getElementById('customizeBtn').addEventListener('click', () => {
+            document.getElementById('toppingsGroup').classList.remove('hidden');
+        });
 
-document.getElementById('saveToppingsBtn').addEventListener('click', () => {
-    const toppings = [];
-    document.querySelectorAll('#toppingsGroup input[type="checkbox"]:checked').forEach(cb => {
-        toppings.push({ name: cb.value, price: cb.dataset.price });
-    });
-    selected.toppings = toppings;
-    document.getElementById('addToCartBtn').classList.remove('hidden');
-    document.getElementById('quantityBlock').classList.remove('hidden');
-});
+        document.getElementById('saveToppingsBtn').addEventListener('click', () => {
+            const toppings = [];
+            document.querySelectorAll('#toppingsGroup input[type="checkbox"]:checked').forEach(cb => {
+                toppings.push({ name: cb.value, price: cb.dataset.price });
+            });
+            selected.toppings = toppings;
+            document.getElementById('addToCartBtn').classList.remove('hidden');
+            document.getElementById('quantityBlock').classList.remove('hidden');
+        });
 
-document.getElementById('incrementQty').addEventListener('click', () => {
-    quantity++;
-    quantityDisplay.textContent = quantity;
-});
+        document.getElementById('incrementQty').addEventListener('click', () => {
+            quantity++;
+            quantityDisplay.textContent = quantity;
+        });
 
-document.getElementById('decrementQty').addEventListener('click', () => {
-    if (quantity > 1) {
-        quantity--;
-        quantityDisplay.textContent = quantity;
-    }
-});
+        document.getElementById('decrementQty').addEventListener('click', () => {
+            if (quantity > 1) {
+                quantity--;
+                quantityDisplay.textContent = quantity;
+            }
+        });
 
-document.getElementById('addToCartBtn').addEventListener('click', () => {
-    selected.quantity = quantity;
-    const toppingsTotal = (selected.toppings || []).reduce((sum, t) => sum + parseFloat(t.price), 0);
-    const total_price = (parseFloat(selected.price) + toppingsTotal) * quantity;
-    selected.total_price = total_price.toFixed(2);
-    cart.push({ ...selected });
-    updateSummary();
-    resetFlow();
-});
+        document.getElementById('addToCartBtn').addEventListener('click', () => {
+            selected.quantity = quantity;
+            const toppingsTotal = (selected.toppings || []).reduce((sum, t) => sum + parseFloat(t.price), 0);
+            const total_price = (parseFloat(selected.price) + toppingsTotal) * quantity;
+            selected.total_price = total_price.toFixed(2);
+            cart.push({ ...selected });
+            updateSummary();
+            resetFlow();
+        });
 
-function updateSummary() {
-    const summaryList = document.getElementById('summaryList');
-    summaryList.innerHTML = '';
+        function updateSummary() {
+            const summaryList = document.getElementById('summaryList');
+            summaryList.innerHTML = '';
 
-    let totalBase = 0;
-    let totalToppings = 0;
-    let totalQty = 0;
-    let totalPrice = 0;
+            let totalBase = 0;
+            let totalToppings = 0;
+            let totalQty = 0;
+            let totalPrice = 0;
 
-    cart.forEach((item, index) => {
-        const base = parseFloat(item.base_price);
-        const toppings = (item.toppings || []).reduce((sum, t) => sum + parseFloat(t.price), 0);
-        const qty = parseInt(item.quantity);
-        const itemTotal = (base + toppings) * qty;
+            cart.forEach((item, index) => {
+                const base = parseFloat(item.base_price);
+                const toppings = (item.toppings || []).reduce((sum, t) => sum + parseFloat(t.price), 0);
+                const qty = parseInt(item.quantity);
+                const itemTotal = (base + toppings) * qty;
 
-        totalBase += base * qty;
-        totalToppings += toppings * qty;
-        totalQty += qty;
-        totalPrice += itemTotal;
+                totalBase += base * qty;
+                totalToppings += toppings * qty;
+                totalQty += qty;
+                totalPrice += itemTotal;
 
-        const itemEl = document.createElement('div');
-        itemEl.className = 'summary-item';
-        itemEl.innerHTML = `
-            <strong>${item.name}</strong> (x${qty}) - $${itemTotal.toFixed(2)}
-            <button onclick="removeFromCart(${index})">X</button>
-            <p style="font-size: 14px; margin-top: 8px;">Toppings: ${item.toppings?.map(t => t.name).join(', ') || 'None'}</p>
-        `;
-        summaryList.appendChild(itemEl);
-    });
+                const itemEl = document.createElement('div');
+                itemEl.className = 'summary-item';
+                itemEl.innerHTML = `
+                    <strong>${item.name}</strong> (x${qty}) - $${itemTotal.toFixed(2)}
+                    <button onclick="removeFromCart(${index})">X</button>
+                    <p style="font-size: 14px; margin-top: 8px;">Toppings: ${item.toppings?.map(t => t.name).join(', ') || 'None'}</p>
+                `;
+                summaryList.appendChild(itemEl);
+            });
 
-    document.getElementById('summaryBase').textContent = totalBase.toFixed(2);
-    document.getElementById('summaryToppings').textContent = totalToppings.toFixed(2);
-    document.getElementById('summaryQty').textContent = totalQty;
-    document.getElementById('summaryTotal').textContent = totalPrice.toFixed(2);
-}
+            document.getElementById('summaryBase').textContent = totalBase.toFixed(2);
+            document.getElementById('summaryToppings').textContent = totalToppings.toFixed(2);
+            document.getElementById('summaryQty').textContent = totalQty;
+            document.getElementById('summaryTotal').textContent = totalPrice.toFixed(2);
+        }
 
-function removeFromCart(index) {
-    cart.splice(index, 1);
-    updateSummary();
-}
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateSummary();
+        }
 
-function resetFlow(hard = false) {
-    selected = {};
-    quantity = 1;
-    quantityDisplay.textContent = "1";
-    document.getElementById("pizzaContainer").classList.remove("hidden");
-    document.getElementById('customizeBtn').classList.add('hidden');
-    document.getElementById('toppingsGroup').classList.add('hidden');
-    document.getElementById('addToCartBtn').classList.add('hidden');
-    document.getElementById('quantityBlock').classList.add('hidden');
-    document.getElementById('loginContainer').classList.add('hidden');
-    document.getElementById('accountChoice').classList.add('hidden');
-    document.getElementById('accountForm').classList.add('hidden');
-    document.getElementById('finishOrderBtn').classList.add('hidden');
-    document.getElementById('submitNewAccountBtn').classList.add('hidden');
-    document.getElementById('submitAccountBtn').classList.add('hidden');
+        function resetFlow(hard = false) {
+            selected = {};
+            quantity = 1;
+            quantityDisplay.textContent = "1";
+            document.getElementById("pizzaContainer").classList.remove("hidden");
+            document.getElementById('customizeBtn').classList.add('hidden');
+            document.getElementById('toppingsGroup').classList.add('hidden');
+            document.getElementById('addToCartBtn').classList.add('hidden');
+            document.getElementById('quantityBlock').classList.add('hidden');
+            document.getElementById('loginContainer').classList.add('hidden');
+            document.getElementById('accountChoice').classList.add('hidden');
+            document.getElementById('accountForm').classList.add('hidden');
+            document.getElementById('finishOrderBtn').classList.add('hidden');
+            document.getElementById('submitNewAccountBtn').classList.add('hidden');
+            document.getElementById('submitAccountBtn').classList.add('hidden');
 
-    document.querySelectorAll('#toppingsGroup input[type="checkbox"]').forEach(cb => cb.checked = false);
-    document.getElementById('acctEmail').value = '';
-    document.getElementById('acctName').value = '';
-    document.getElementById('acctZip').value = '';
-    document.getElementById('accPswd').value = '';
-    document.querySelectorAll('.pizza-item').forEach(item => item.classList.remove('selected'));
+            document.querySelectorAll('#toppingsGroup input[type="checkbox"]').forEach(cb => cb.checked = false);
+            document.getElementById('acctEmail').value = '';
+            document.getElementById('acctName').value = '';
+            document.getElementById('acctZip').value = '';
+            document.getElementById('accPswd').value = '';
+            document.querySelectorAll('.pizza-item').forEach(item => item.classList.remove('selected'));
 
-    if (hard) {
-        cart = [];
-        updateSummary();
-    }
-}
+            if (hard) {
+                cart = [];
+                updateSummary();
+            }
+        }
 
-document.getElementById('resetBtn').addEventListener('click', () => {
-    resetFlow(true);
-});
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            resetFlow(true);
+        });
 
-document.getElementById('proceedToDeliveryBtn').addEventListener('click', () => {
-    document.getElementById("pizzaContainer").classList.add("hidden");
-    document.getElementById('loginContainer').classList.remove('hidden');
-    document.getElementById('accountChoice').classList.remove('hidden');
-});
+        document.getElementById('force5min').addEventListener('click', () => {
+            TrackEvent
+        });
 
-document.getElementById('haveAccountBtn').addEventListener('click', () => {
-    document.getElementById('accountForm').classList.remove('hidden');
-    document.getElementById('submitAccountBtn').classList.remove('hidden');
-    document.getElementById('submitNewAccountBtn').classList.add('hidden');
-    document.getElementById('nameGroup').classList.add('hidden');
-    document.getElementById('zipcodeGroup').classList.add('hidden');
-    document.getElementById('accountFormTitle').textContent = 'Sign In';
-});
+        document.getElementById('proceedToDeliveryBtn').addEventListener('click', () => {
+            document.getElementById("pizzaContainer").classList.add("hidden");
+            document.getElementById("proceedToDeliveryBtn").classList.add("hidden");
+            document.getElementById('loginContainer').classList.remove('hidden');
+            document.getElementById('accountChoice').classList.remove('hidden');
+        });
 
-document.getElementById('createAccountBtn').addEventListener('click', () => {
-    document.getElementById('accountForm').classList.remove('hidden');
-    document.getElementById('submitNewAccountBtn').classList.remove('hidden');
-    document.getElementById('submitAccountBtn').classList.add('hidden');
-    document.getElementById('nameGroup').classList.remove('hidden');
-    document.getElementById('zipcodeGroup').classList.remove('hidden');
-    document.getElementById('accountFormTitle').textContent = 'Create Account';
-});
+        document.getElementById('haveAccountBtn').addEventListener('click', () => {
+            document.getElementById('accountForm').classList.remove('hidden');
+            document.getElementById('submitAccountBtn').classList.remove('hidden');
+            document.getElementById('submitNewAccountBtn').classList.add('hidden');
+            document.getElementById('nameGroup').classList.add('hidden');
+            document.getElementById('zipcodeGroup').classList.add('hidden');
+            document.getElementById('accountFormTitle').textContent = 'Sign In';
+        });
 
-document.getElementById('submitNewAccountBtn').addEventListener('click', (e) => {
-    e.preventDefault();
-    selected.zipcode = document.getElementById('acctZip').value;
-    document.getElementById('finishOrderBtn').classList.remove('hidden');
-});
+        document.getElementById('createAccountBtn').addEventListener('click', () => {
+            document.getElementById('accountForm').classList.remove('hidden');
+            document.getElementById('submitNewAccountBtn').classList.remove('hidden');
+            document.getElementById('submitAccountBtn').classList.add('hidden');
+            document.getElementById('nameGroup').classList.remove('hidden');
+            document.getElementById('zipcodeGroup').classList.remove('hidden');
+            document.getElementById('accountFormTitle').textContent = 'Create Account';
+        });
 
-document.getElementById('submitAccountBtn').addEventListener('click', (e) => {
-    e.preventDefault();
-    selected.zipcode = "00000";
-    document.getElementById('finishOrderBtn').classList.remove('hidden');
-});
+        document.getElementById('submitNewAccountBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            selected.zipcode = document.getElementById('acctZip').value;
+            document.getElementById('finishOrderBtn').classList.remove('hidden');
+        });
 
-document.getElementById('finishOrderBtn').addEventListener('click', () => {
-    const totalQty = cart.reduce((sum, i) => sum + parseInt(i.quantity), 0);
-    const totalPrice = cart.reduce((sum, i) => sum + parseFloat(i.total_price), 0);
-    alert(`Order Created! ${totalQty} pizzas - $${totalPrice.toFixed(2)}`);
-    resetFlow(true);
-});
-</script>
+        document.getElementById('submitAccountBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            selected.zipcode = "00000";
+            document.getElementById('finishOrderBtn').classList.remove('hidden');
+        });
+
+        document.getElementById('finishOrderBtn').addEventListener('click', () => {
+            const totalQty = cart.reduce((sum, i) => sum + parseInt(i.quantity), 0);
+            const totalPrice = cart.reduce((sum, i) => sum + parseFloat(i.total_price), 0);
+            alert(`Order Created! ${totalQty} pizzas - $${totalPrice.toFixed(2)}`);
+            resetFlow(true);
+        });
+    </script>
 
 </body>
 
