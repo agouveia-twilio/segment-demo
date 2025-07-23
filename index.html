@@ -289,7 +289,6 @@
 
         document.querySelectorAll('.pizza-item').forEach(item => {
             item.addEventListener('click', () => {
-                analytics.track("Product Clicked");
                 document.querySelectorAll('.pizza-item').forEach(p => p.classList.remove('selected'));
                 item.classList.add('selected');
                 selected = {
@@ -299,6 +298,11 @@
                     base_price: item.dataset.basePrice,
                     toppings: []
                 };
+                analytics.track("Product Clicked", {
+                    product_id: id,
+                    name: name,
+                    price: price
+                });
                 document.getElementById('customizeBtn').classList.remove('hidden');
                 document.getElementById('toppingsGroup').classList.add('hidden');
                 document.getElementById('addToCartBtn').classList.add('hidden');
@@ -307,11 +311,15 @@
         });
 
         document.getElementById('customizeBtn').addEventListener('click', () => {
+            analytics.track("Product Viewed",{
+                product_id: id,
+                name: name,
+                price: price
+            });
             document.getElementById('toppingsGroup').classList.remove('hidden');
         });
 
         document.getElementById('saveToppingsBtn').addEventListener('click', () => {
-            analytics.track("Product Viewed");
             const toppings = [];
             document.querySelectorAll('#toppingsGroup input[type="checkbox"]:checked').forEach(cb => {
                 toppings.push({ name: cb.value, price: cb.dataset.price });
@@ -334,12 +342,18 @@
         });
 
         document.getElementById('addToCartBtn').addEventListener('click', () => {
-            analytics.track("Product Added");
             selected.quantity = quantity;
             const toppingsTotal = (selected.toppings || []).reduce((sum, t) => sum + parseFloat(t.price), 0);
             const total_price = (parseFloat(selected.price) + toppingsTotal) * quantity;
             selected.total_price = total_price.toFixed(2);
             cart.push({ ...selected });
+            analytics.track("Product Added", {
+                cart_id: generateUUID(),
+                product_id: id,
+                name: name,
+                price: selected.total_price,
+                toppings: toppings
+            });
             updateSummary();
             resetFlow();
         });
@@ -454,6 +468,15 @@
 
         document.getElementById('submitNewAccountBtn').addEventListener('click', (e) => {
             analytics.track("Checkout Step Completed")
+            analytics.track("Account Created")
+            analytics.identify(
+                "749b8795-da19-4f4d-af58-79a5fcdc9d03",
+                {
+                    email: "john@doe.com",
+                    name: "John Doe",
+                    address: "0000000"
+                }
+            )
             e.preventDefault();
             selected.zipcode = document.getElementById('acctZip').value;
             document.getElementById('finishOrderBtn').classList.remove('hidden');
@@ -461,18 +484,53 @@
 
         document.getElementById('submitAccountBtn').addEventListener('click', (e) => {
             analytics.track("Checkout Step Completed")
+            analytics.track("Logged In")
+            const email = document.getElementById('acctEmail').value;
+            const name = document.getElementById('acctName')?.value;
+            const address = document.getElementById('acctZip').value;
+            analytics.identify(
+                generateUUID(),
+                {
+                    email,
+                    name,
+                    address
+                }
+            )
             e.preventDefault();
-            selected.zipcode = "00000";
             document.getElementById('finishOrderBtn').classList.remove('hidden');
         });
 
         document.getElementById('finishOrderBtn').addEventListener('click', () => {
-            analytics.track("Order Completed")
             const totalQty = cart.reduce((sum, i) => sum + parseInt(i.quantity), 0);
             const totalPrice = cart.reduce((sum, i) => sum + parseFloat(i.total_price), 0);
+            const products = {
+                product_id: selected.id,
+                name: selected.name,
+                toppings: selected.toppings,
+                price: selected.price
+            }
+            const properties = {
+                checkout_id: generateUUID(),
+                order_id: generateUUID(),
+                subtotal: totalPrice,
+                total: totalPrice,
+                shipping: 0,
+                currency: "USD",
+                products: products
+            }
+            analytics.track("Order Completed", properties)
             alert(`Order Created! ${totalQty} pizzas - $${totalPrice.toFixed(2)}`);
             resetFlow(true);
         });
+
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                const r = Math.random() * 16 | 0;
+                const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
     </script>
 
 </body>
