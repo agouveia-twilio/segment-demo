@@ -1,4 +1,3 @@
-<!-- Updated full HTML with multi-item cart support and delete option -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +10,7 @@
     <script>
     !function(){var i="analytics",analytics=window[i]=window[i]||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","screen","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware","register"];analytics.factory=function(e){return function(){if(window[i].initialized)return window[i][e].apply(window[i],arguments);var n=Array.prototype.slice.call(arguments);if(["track","screen","alias","group","page","identify"].indexOf(e)>-1){var c=document.querySelector("link[rel='canonical']");n.push({__t:"bpc",c:c&&c.getAttribute("href")||void 0,p:location.pathname,u:location.href,s:location.search,t:document.title,r:document.referrer})}n.unshift(e);analytics.push(n);return analytics}};for(var n=0;n<analytics.methods.length;n++){var key=analytics.methods[n];analytics[key]=analytics.factory(key)}analytics.load=function(key,n){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.setAttribute("data-global-segment-analytics-key",i);t.src="https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(t,r);analytics._loadOptions=n};analytics._writeKey="hB3eh4jC2L0Np9ScPVIqDIG9iIrDVu27";;analytics.SNIPPET_VERSION="5.2.0";
     analytics.load("hB3eh4jC2L0Np9ScPVIqDIG9iIrDVu27");
-    analytics.page();
+    analytics.page("Home");
     }}();
     </script>
 
@@ -96,17 +95,17 @@
             background-color: #ff9800;
         }
 
-        .btn-force5min {
-            background-color: #cb08b1;
+        .btn-cartAbandoned {
+            background-color: #0885ce;
             position: fixed;
-            bottom: 20px;
-            right: 180px;
+            bottom: 60px;
+            right: 20px;
             width: auto;
             padding: 8px 12px;
         }
 
         .btn-reset {
-            background-color: #777;
+            background-color: #323030;
             position: fixed;
             bottom: 20px;
             right: 20px;
@@ -278,8 +277,8 @@
         <button id="finishOrderBtn" class="btn-warning hidden">Create Order</button>
     </div>
 
-    <button id="resetBtn" class="btn-reset">Reset Flow & User</button>
-    <button id="force5min" class="btn-force5min">Force 5-min</button>
+    <button id="resetBtn" class="btn-reset">Reset Flow & User Properties</button>
+    <button id="cartAbandoned" class="btn-cartAbandoned">Trigger Cart Abandoned Event</button>
 
     <script>
         let selected = {};
@@ -290,6 +289,7 @@
 
         document.querySelectorAll('.pizza-item').forEach(item => {
             item.addEventListener('click', () => {
+                analytics.track("Product Clicked");
                 document.querySelectorAll('.pizza-item').forEach(p => p.classList.remove('selected'));
                 item.classList.add('selected');
                 selected = {
@@ -311,6 +311,7 @@
         });
 
         document.getElementById('saveToppingsBtn').addEventListener('click', () => {
+            analytics.track("Product Viewed");
             const toppings = [];
             document.querySelectorAll('#toppingsGroup input[type="checkbox"]:checked').forEach(cb => {
                 toppings.push({ name: cb.value, price: cb.dataset.price });
@@ -333,6 +334,7 @@
         });
 
         document.getElementById('addToCartBtn').addEventListener('click', () => {
+            analytics.track("Product Added");
             selected.quantity = quantity;
             const toppingsTotal = (selected.toppings || []).reduce((sum, t) => sum + parseFloat(t.price), 0);
             const total_price = (parseFloat(selected.price) + toppingsTotal) * quantity;
@@ -379,6 +381,7 @@
         }
 
         function removeFromCart(index) {
+            analytics.track("Product Removed");
             cart.splice(index, 1);
             updateSummary();
         }
@@ -413,14 +416,16 @@
         }
 
         document.getElementById('resetBtn').addEventListener('click', () => {
+            analytics.track("Order Cancelled")
             resetFlow(true);
         });
 
-        document.getElementById('force5min').addEventListener('click', () => {
-            TrackEvent
+        document.getElementById('cartAbandoned').addEventListener('click', () => {
+            analytics.track("Cart Abandoned")
         });
 
         document.getElementById('proceedToDeliveryBtn').addEventListener('click', () => {
+            analytics.track("Checkout Started")
             document.getElementById("pizzaContainer").classList.add("hidden");
             document.getElementById("proceedToDeliveryBtn").classList.add("hidden");
             document.getElementById('loginContainer').classList.remove('hidden');
@@ -428,6 +433,7 @@
         });
 
         document.getElementById('haveAccountBtn').addEventListener('click', () => {
+            analytics.track("Checkout Step Viewed")
             document.getElementById('accountForm').classList.remove('hidden');
             document.getElementById('submitAccountBtn').classList.remove('hidden');
             document.getElementById('submitNewAccountBtn').classList.add('hidden');
@@ -437,6 +443,7 @@
         });
 
         document.getElementById('createAccountBtn').addEventListener('click', () => {
+            analytics.track("Checkout Step Viewed")
             document.getElementById('accountForm').classList.remove('hidden');
             document.getElementById('submitNewAccountBtn').classList.remove('hidden');
             document.getElementById('submitAccountBtn').classList.add('hidden');
@@ -446,18 +453,21 @@
         });
 
         document.getElementById('submitNewAccountBtn').addEventListener('click', (e) => {
+            analytics.track("Checkout Step Completed")
             e.preventDefault();
             selected.zipcode = document.getElementById('acctZip').value;
             document.getElementById('finishOrderBtn').classList.remove('hidden');
         });
 
         document.getElementById('submitAccountBtn').addEventListener('click', (e) => {
+            analytics.track("Checkout Step Completed")
             e.preventDefault();
             selected.zipcode = "00000";
             document.getElementById('finishOrderBtn').classList.remove('hidden');
         });
 
         document.getElementById('finishOrderBtn').addEventListener('click', () => {
+            analytics.track("Order Completed")
             const totalQty = cart.reduce((sum, i) => sum + parseInt(i.quantity), 0);
             const totalPrice = cart.reduce((sum, i) => sum + parseFloat(i.total_price), 0);
             alert(`Order Created! ${totalQty} pizzas - $${totalPrice.toFixed(2)}`);
