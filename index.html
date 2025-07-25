@@ -498,7 +498,7 @@
             analytics.track("Checkout Step Completed")
             analytics.track("Account Created")
             selected.email  = document.getElementById('acctEmail').value;
-            selected.email  = document.getElementById('acctPhone').value;
+            selected.phone  = document.getElementById('acctPhone').value;
             selected.name  = document.getElementById('acctName')?.value;
             selected.address = document.getElementById('acctZip').value;
             e.preventDefault();
@@ -508,7 +508,7 @@
                     email: selected.email,
                     name: selected.name,
                     phone: selected.phone,
-                    address: selected.zipcode
+                    address: selected.address
                 }
             )
             document.getElementById('finishOrderBtn').classList.remove('hidden');
